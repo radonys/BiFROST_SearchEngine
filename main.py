@@ -21,7 +21,7 @@ def main(args):
 
     elif args.data_json_file!=None:
         indexing.dataload(words,args.data_json_file)
-        indexing.tfidf(words,words_tfidf,filecount)
+        indexing.tfidf(words,words_tfidf,1)
         indexing.datasave(words_tfidf)
 
     elif args.data_dir!=None:

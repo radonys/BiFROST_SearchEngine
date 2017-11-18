@@ -56,7 +56,23 @@ def LexRank(f):
     M=create_centrality_matrix(sentences)
     d=0.85
 
+    page_rank=np.zeros(N)
+    degree=np.zeros(N)
 
+    for u in range(N):
+        for v in range(N):
+            if u!=v and M[u][v]>0:
+                degree[u]+=1
+
+    for u in range(N):
+        rank=0
+        for v in range(N):
+            if M[u][v]>0:
+                rank+=(page_rank[v]/degree[v])
+        page_rank[u]=(1-d)/N+d*rank
+
+    print page_rank
+    print sentences[np.argmax(page_rank)]
 
 if __name__ == '__main__':
 

@@ -1,4 +1,5 @@
 import numpy as np
+import heapq
 from nltk.tokenize import sent_tokenize,RegexpTokenizer
 
 def row_normalize(A):
@@ -62,17 +63,18 @@ def LexRank(f):
     for u in range(N):
         for v in range(N):
             if u!=v and M[u][v]>0:
-                degree[u]+=1
+                degree[u]+=M[u][v]
 
-    for u in range(N):
-        rank=0
-        for v in range(N):
-            if M[u][v]>0:
-                rank+=(page_rank[v]/degree[v])
-        page_rank[u]=(1-d)/N+d*rank
+    for i in range(100):
+        for u in range(N):
+            rank=0
+            for v in range(N):
+                if M[u][v]>0 and u!=v:
+                    rank+=(M[u][v]*page_rank[v]/degree[v])
+            page_rank[u]=(1-d)/N+d*rank
 
-    print page_rank
-    print sentences[np.argmax(page_rank)]
+    for i in heapq.nlargest(2,range(N),page_rank.take):
+        print sentences[i]
 
 if __name__ == '__main__':
 

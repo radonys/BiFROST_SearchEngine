@@ -109,5 +109,24 @@ def query_tfidf(processed,words):
 
     return vector
 
+def score_calculator(cosinevector,queryvector):
+    
+    scorevector = collections.defaultdict(dict)
 
+    for doc in cosinevector:
+        
+        docvector = cosinevector[doc]
+        score = 0
+
+        dot_product = sum(p*q for p,q in zip(docvector, queryvector))
+        magnitude = math.sqrt(sum([val**2 for val in docvector])) * math.sqrt(sum([val**2 for val in queryvector]))
+        
+        if not magnitude:
+            score = 0
+        else:
+            score = dot_product/magnitude
+
+        scorevector[doc] = score
+    
+    return scorevector
 

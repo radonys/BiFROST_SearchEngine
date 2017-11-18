@@ -10,10 +10,12 @@ import normalization
 def tokenize(f):
 
     processed=[]
+    stop_words = set(stopwords.words('english'))
 
     for word in word_tokenize(f):
         if word.isalnum():
-            processed.append(word.lower())
+            if word not in stop_words:
+                processed.append(word.lower())
 
     return processed
 
@@ -36,23 +38,12 @@ def stem_words(f):
 
 	return processed
 
-#Remove stopwords
-def remove_stopwords(f):
-    
-    processed=stem_words(f)
-    
-    for word in processed:
-        if word in stopwords.words('english'):
-            processed.remove(word)
-    
-    return processed
-
 #Preprocess
 def textprocess(data):
     
     nltk.data.path.append("/Users/yashsrivastava/Documents/Files/IR/nltk_data")
 
-    processed=remove_stopwords(data)
+    processed=stem_words(data)
     return processed
 
 #Text-Extraction

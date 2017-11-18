@@ -17,6 +17,7 @@ def index(words,filepath):
     
             total_files = total_files + 1
             text_data = TE.extract(os.path.join(os.path.abspath(folder),filename))
+            document = None
 
             if text_data != None:
                 
@@ -29,7 +30,7 @@ def index(words,filepath):
                     positions = [index for index, value in enumerate(processed) if value == term]
                     words[term][document] = positions
             
-            print "File : ", total_files, " done."
+            print "File : ", total_files, " done. File Path : ", document 
 
     return total_files
 

@@ -57,3 +57,8 @@ def extract(file):
     if soup.find('text')!=None:
         return soup.find('text').text        
 
+#Summarization Text
+def summarize_text(file,text):
+
+    text[file] = extract(file)
+

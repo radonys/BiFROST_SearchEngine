@@ -5,11 +5,13 @@ import sys
 import collections
 
 import indexing
+import text_extract as TE
 
 def main(args):
 
     words = collections.defaultdict(dict) #Stores words, documents containing them and positional indices.
     words_tfidf = collections.defaultdict(dict) #Stores TF, IDF & TF-IDF.
+    text = dict()
     filecount = 0
 
     #If no data is given as input.
@@ -25,11 +27,17 @@ def main(args):
     elif args.data_dir!=None:
         filecount = indexing.index(words,args.data_dir)
         indexing.tfidf(words,words_tfidf,filecount)
-        indexing.datasave(words_tfidf)
+        indexing.datasave(words_tfidf,1)
 
-    if words_tfidf:
+    if indexing.is_empty(text)==True:
         
-        print "Success"
+        for folder,subfolders,files in os.walk(args.data_dir):
+            for filename in files:
+                TE.summarize_text(os.path.join(os.path.abspath(folder),filename),text)
+        
+        indexing.datasave(text,2)
+        
+    print "Success"
     
 def parse_arguments(argv):
     

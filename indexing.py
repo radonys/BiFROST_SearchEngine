@@ -43,9 +43,13 @@ def dataload(words,filepath):
     file.close()
 
 #Saving Data
-def datasave(words):
+def datasave(words,i):
 
-    file = open("index_table.json",'w')
+    if i==1:
+        file = open("data/tfidf_index.json",'w')
+    else:
+        file = open("data/text_doc.json",'w')
+
     json.dump(words,file)
     file.close()
 
@@ -62,3 +66,11 @@ def tfidf(words,words_tfidf,filecount):
             tf = len(words[word][doc])
             tf_idf = (1 + math.log(tf))*idf
             words_tfidf[word][doc] = (tf,idf,tf_idf)
+
+def is_empty(any_structure):
+    
+    if any_structure:
+        return False
+
+    else:
+        return True

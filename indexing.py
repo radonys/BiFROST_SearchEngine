@@ -7,6 +7,7 @@ import math
 
 import text_extract as TE
 
+#Indexing words.
 def index(words,filepath):
 
     total_files = 0
@@ -34,18 +35,21 @@ def index(words,filepath):
 
     return total_files
 
+#Loading Data
 def dataload(words,filepath):
 
     file = open(filepath,'r')
     words = json.load(file)
     file.close()
 
+#Saving Data
 def datasave(words):
 
     file = open("index_table.json",'w')
     json.dump(words,file)
     file.close()
 
+#Calculating TF-IDF
 def tfidf(words,words_tfidf,filecount):
 
     for word in words:

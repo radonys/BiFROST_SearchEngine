@@ -6,7 +6,7 @@ from nltk import PorterStemmer
 from nltk.corpus import stopwords
 import normalization
 
-#Tokenise,remove punctuation and convert to lowercase
+#Tokenise,remove punctuation and convert to lowercase and removing stopwords.
 def tokenize(f):
 
     processed=[]

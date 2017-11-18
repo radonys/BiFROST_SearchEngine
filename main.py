@@ -46,7 +46,7 @@ def main(args):
         
         indexing.datasave(cosinevector,3)
         
-    print "Success"
+    print "Success, Word Count : ", len(words), " Document Count : ", len(cosinevector)
     
 def parse_arguments(argv):
     

@@ -2,25 +2,16 @@ import os
 import importlib
 import argparse
 import sys
+import collections
 
-import text_extract as TE
+import indexing
 
 def main(args):
 
-    for folder,subfolders,files in os.walk(args.data_dir):
-        
-        for filename in files:
-    
-            text_data = TE.extract(os.path.join(os.path.abspath(folder),filename))
-            #print text_data
-            if text_data!=None:
-                processed=TE.textprocess(text_data)
-                print processed
+    words = collections.defaultdict(dict)
+    words_idf = dict()
 
-        '''for word in processed:
-            
-            term=word
-            document=os.path.join(os.path.abspath(folder),filename)'''
+    indexing.index(words,args.data_dir)
 
 def parse_arguments(argv):
     	

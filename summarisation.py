@@ -1,8 +1,6 @@
 import numpy as np
 from nltk.tokenize import sent_tokenize,RegexpTokenizer
 
-rtokenizer=RegexpTokenizer(r'\w+')
-
 def row_normalize(A):
 
     return (A.transpose()*(1/A.sum(1))).transpose()
@@ -15,33 +13,26 @@ def idf(word):
 
 def idf_modified_cosine(str1,str2):
 
+    rtokenizer=RegexpTokenizer(r'\w+')
     x=rtokenizer.tokenize(str1)
     y=rtokenizer.tokenize(str2)
 
     num=den1=den2=0.0
-
-    print list(set(x+y))
 
     for w in list(set(x+y)):
         num+=x.count(w)*y.count(w)*(idf(w)**2)
 
     for xi in x:
         den1+=(x.count(xi)*idf(xi))**2
-    den1=np.sqrt(den1)
 
     for yi in y:
         den2+=(y.count(yi)*idf(yi))**2
-    den2=np.sqrt(den1)
 
-    result=num/(den1*den2)
+    result=num/np.sqrt(den1*den2)
     return result
 
 
-def create_centrality_matrix(f):
-
-    str=f.read()
-    sentences=sent_tokenize(str)
-    words=list(set(rtokenizer.tokenize(str)))
+def create_centrality_matrix(sentences):
 
     N=len(sentences)
 
@@ -53,11 +44,21 @@ def create_centrality_matrix(f):
 
     centrality_matrix=row_normalize(centrality_matrix)
 
+    print centrality_matrix
     return centrality_matrix
+
+
+def LexRank(f):
+
+    str=f.read()
+    sentences=sent_tokenize(str)
+    N=len(sentences)
+    M=create_centrality_matrix(sentences)
+    d=0.85
+
 
 
 if __name__ == '__main__':
 
     f=open('test.txt')
-    C=create_centrality_matrix(f)
-    print C
+    LexRank(f)

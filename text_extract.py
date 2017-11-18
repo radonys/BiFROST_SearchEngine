@@ -4,10 +4,11 @@ import nltk
 from nltk import word_tokenize
 from nltk import PorterStemmer
 from nltk.corpus import stopwords
+import normalization
 
-#tokenise,remove punctuation and convert to lowercase
+#Tokenise,remove punctuation and convert to lowercase
 def tokenize(f):
-    
+
     processed=[]
 
     for word in word_tokenize(f):
@@ -16,18 +17,26 @@ def tokenize(f):
 
     return processed
 
-#stemming
+#Normalization
+def normalize(f):
+    
+     f = normalization.normalize(f)
+     processed = tokenize(f)
+     
+     return processed
+
+#Stemming
 def stem_words(f):
 
 	stemmer=PorterStemmer()
-	processed=tokenize(f)
+	processed=normalize(f)
 
 	for i in range(len(processed)):
 		processed[i]=stemmer.stem(processed[i])
 
 	return processed
 
-#remove stopwords
+#Remove stopwords
 def remove_stopwords(f):
     
     processed=stem_words(f)
@@ -38,15 +47,15 @@ def remove_stopwords(f):
     
     return processed
 
-#preprocess
+#Preprocess
 def textprocess(data):
     
     nltk.data.path.append("/Users/yashsrivastava/Documents/Files/IR/nltk_data")
-    
+
     processed=remove_stopwords(data)
     return processed
 
-#text-extraction
+#Text-Extraction
 def extract(file):
     
     with open(file, 'r') as myfile:

@@ -85,7 +85,20 @@ def cosine_similarity(document,cosinevector,words):
         for doc in words[word]:
 
             if doc==document:       
-                cosinevector[document].append(1)
+                cosinevector[document].append(words[word][doc][2])
             else:
                 cosinevector[document].append(0)
+
+def cosine_vector(query,cosinevector,words,processed):
+
+    cosinevector[query] = []
+
+    for word in sorted(words.iterkeys()):
+
+        for doc in words[word]:
+            
+            if processed.index(word):   
+                cosinevector[query].append(words[word][doc][2])
+            else:
+                cosinevector[query].append(0)
 

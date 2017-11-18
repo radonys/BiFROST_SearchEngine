@@ -13,7 +13,7 @@ def main(args):
     filecount = 0
 
     #If no data is given as input.
-    if args.data_json_file==None and args.tfidf_json_file==None:
+    if args.data_dir==None and args.tfidf_json_file==None:
         
         sys.exit("No Data Available")
 

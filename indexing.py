@@ -81,16 +81,33 @@ def cosine_vector(words,processed,filepath):
 
     cosinevector = collections.defaultdict(dict)
 
-    for word in processed:
-        for folder,subfolders,files in os.walk(filepath):
-            for filename in files:
-                
-                document = os.path.join(os.path.abspath(folder),filename)
+    for folder,subfolders,files in os.walk(filepath):
 
+        for filename in files:
+                
+            document = os.path.join(os.path.abspath(folder),filename)
+            cosinevector[document] = list()
+
+            for word in sorted(set(processed)):
+                
                 if document in words[word]:
-                    cosinevector[word][document] = words[word][document][2]
+                    cosinevector[document].append(words[word][document][2])
                 else:
-                    cosinevector[word][document] = 0
+                    cosinevector[document].append(0)
 
     return cosinevector
+
+def query_tfidf(processed,words):
+    
+    vector = list()
+    
+    for word in sorted(set(processed)):
+        for doc in words[word]:
+            
+            tf_idf = (1+math.log(processed.count(word)))*(words[word][doc][1])
+            vector.append(tf_idf)
+
+    return vector
+
+
 

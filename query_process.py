@@ -24,6 +24,8 @@ def query_vector(query,path):
     indexing.dataload(words_tfidf,'data/tfidf_index.json')
     cosinevector.update(indexing.cosine_vector(words_tfidf,processed,path))
 
+    queryvector = indexing.query_tfidf(processed,words_tfidf)
+
 query = raw_input()
 path = "/Users/yashsrivastava/Desktop/raw"
 query_vector(query,path)

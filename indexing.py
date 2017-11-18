@@ -47,8 +47,10 @@ def datasave(words,i):
 
     if i==1:
         file = open("data/tfidf_index.json",'w')
-    else:
+    elif i==2:
         file = open("data/text_doc.json",'w')
+    elif i==3:
+        file = open("data/vector_doc.json","w")
 
     json.dump(words,file)
     file.close()
@@ -74,3 +76,12 @@ def is_empty(any_structure):
 
     else:
         return True
+
+def cosine_similarity(document,cosinevector,words):
+    
+    cosinevector[document] = []
+
+    for word in sorted(words.iterkeys()):
+        for doc in words[word]:       
+            cosinevector[document].append(words[word][doc][2])
+

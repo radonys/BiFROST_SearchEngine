@@ -12,6 +12,7 @@ def main(args):
     words = collections.defaultdict(dict) #Stores words, documents containing them and positional indices.
     words_tfidf = collections.defaultdict(dict) #Stores TF, IDF & TF-IDF.
     text = dict()
+    cosinevector = dict()
     filecount = 0
 
     #If no data is given as input.
@@ -36,6 +37,14 @@ def main(args):
                 TE.summarize_text(os.path.join(os.path.abspath(folder),filename),text)
         
         indexing.datasave(text,2)
+    
+    if indexing.is_empty(cosinevector)==True:
+        
+        for folder,subfolders,files in os.walk(args.data_dir):
+            for filename in files:
+                indexing.cosine_similarity(os.path.join(os.path.abspath(folder),filename),cosinevector,words_tfidf)
+        
+        indexing.datasave(cosinevector,3)
         
     print "Success"
     

@@ -39,7 +39,7 @@ def index(words,filepath):
 def dataload(words,filepath):
 
     file = open(filepath,'r')
-    words = json.load(file)
+    words.update(json.load(file))
     file.close()
 
 #Saving Data
@@ -77,28 +77,20 @@ def is_empty(any_structure):
     else:
         return True
 
-def cosine_similarity(document,cosinevector,words):
-    
-    cosinevector[document] = []
+def cosine_vector(words,processed,filepath):
 
-    for word in sorted(words.iterkeys()):
-        for doc in words[word]:
+    cosinevector = collections.defaultdict(dict)
 
-            if doc==document:       
-                cosinevector[document].append(words[word][doc][2])
-            else:
-                cosinevector[document].append(0)
+    for word in processed:
+        for folder,subfolders,files in os.walk(filepath):
+            for filename in files:
+                
+                document = os.path.join(os.path.abspath(folder),filename)
 
-def cosine_vector(query,cosinevector,words,processed):
+                if document in words[word]:
+                    cosinevector[word][document] = words[word][document][2]
+                else:
+                    cosinevector[word][document] = 0
 
-    cosinevector[query] = []
-
-    for word in sorted(words.iterkeys()):
-
-        for doc in words[word]:
-            
-            if processed.index(word):   
-                cosinevector[query].append(words[word][doc][2])
-            else:
-                cosinevector[query].append(0)
+    return cosinevector
 

@@ -1,6 +1,11 @@
 import numpy as np
 import heapq
+import json
 from nltk.tokenize import sent_tokenize,RegexpTokenizer
+from nltk import PorterStemmer
+from nltk.corpus import stopwords
+
+stop_words=list(set(stopwords.words("english")))
 
 def row_normalize(A):
 
@@ -9,7 +14,15 @@ def row_normalize(A):
 
 def idf(word):
 
-    return 0.5
+    stemmer=PorterStemmer()
+    word=stemmer.stem(word)
+
+    f=open('data/tfidf_index.json','r')
+    indices=json.load(f)
+    f.close()
+
+    idf_value=indices[word].values()[0][1]
+    return idf_value
 
 
 def idf_modified_cosine(str1,str2):
@@ -21,13 +34,16 @@ def idf_modified_cosine(str1,str2):
     num=den1=den2=0.0
 
     for w in list(set(x+y)):
-        num+=x.count(w)*y.count(w)*(idf(w)**2)
+        if w not in stop_words:
+            num+=x.count(w)*y.count(w)*(idf(w)**2)
 
     for xi in x:
-        den1+=(x.count(xi)*idf(xi))**2
+        if w not in stop_words:
+            den1+=(x.count(xi)*idf(xi))**2
 
     for yi in y:
-        den2+=(y.count(yi)*idf(yi))**2
+        if w not in stop_words:
+            den2+=(y.count(yi)*idf(yi))**2
 
     result=num/np.sqrt(den1*den2)
     return result
@@ -45,13 +61,11 @@ def create_centrality_matrix(sentences):
 
     centrality_matrix=row_normalize(centrality_matrix)
 
-    print centrality_matrix
     return centrality_matrix
 
 
-def LexRank(f):
+def LexRank(str):
 
-    str=f.read()
     sentences=sent_tokenize(str)
     N=len(sentences)
     M=create_centrality_matrix(sentences)
@@ -76,7 +90,10 @@ def LexRank(f):
     for i in heapq.nlargest(2,range(N),page_rank.take):
         print sentences[i]
 
-if __name__ == '__main__':
+if __name__=='__main__':
 
-    f=open('test.txt')
-    LexRank(f)
+    f=open('data/text_doc.json','r')
+    text=json.load(f)
+    f.close()
+    txt=text.values()[0]
+    LexRank(txt)

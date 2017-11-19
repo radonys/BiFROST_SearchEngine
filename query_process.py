@@ -37,7 +37,9 @@ def phrase_query(query,words):
         if term not in words:
             return doc_list
 
-def query_vector(query,path):
+    
+
+def query_vector(query):
 
     words = collections.defaultdict(dict)
     words_tfidf = collections.defaultdict(dict)
@@ -54,7 +56,7 @@ def query_vector(query,path):
         words[term][document] = positions
     
     indexing.dataload(words_tfidf,'data/tfidf_index.json')
-    cosinevector.update(indexing.cosine_vector(words_tfidf,processed,path))
+    cosinevector.update(indexing.cosine_vector(words_tfidf,processed,'/Users/yashsrivastava/Desktop/raw'))
 
     queryvector = indexing.query_tfidf(processed,words_tfidf)
 
@@ -86,6 +88,3 @@ def query_position(query):
         return free_text_query(words_query,words_doc)
     elif query_type=='PQ':
         return phrase_query(words_query,words_doc)
-
-
-    

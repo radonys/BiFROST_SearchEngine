@@ -1,9 +1,10 @@
 import numpy as np
 import heapq
 import json
-from nltk.tokenize import sent_tokenize,RegexpTokenizer
+from nltk.tokenize import sent_tokenize,word_tokenize
 from nltk import PorterStemmer
 from nltk.corpus import stopwords
+import normalization
 
 stop_words=list(set(stopwords.words("english")))
 
@@ -17,19 +18,27 @@ def idf(word):
     stemmer=PorterStemmer()
     word=stemmer.stem(word)
 
-    f=open('data/tfidf_index.json','r')
-    indices=json.load(f)
-    f.close()
-
+    global indices
     idf_value=indices[word].values()[0][1]
     return idf_value
 
 
 def idf_modified_cosine(str1,str2):
 
-    rtokenizer=RegexpTokenizer(r'\w+')
-    x=rtokenizer.tokenize(str1)
-    y=rtokenizer.tokenize(str2)
+    x0=word_tokenize(str1)
+    y0=word_tokenize(str2)
+
+    x=y=[]
+
+    for xi in x0:
+        if xi.isalnum():
+            if xi not in stop_words:
+                x.append(xi.lower())
+
+    for yi in y0:
+        if yi.isalnum():
+            if yi not in stop_words:
+                y.append(yi.lower())
 
     num=den1=den2=0.0
 
@@ -38,11 +47,11 @@ def idf_modified_cosine(str1,str2):
             num+=x.count(w)*y.count(w)*(idf(w)**2)
 
     for xi in x:
-        if w not in stop_words:
+        if xi not in stop_words:
             den1+=(x.count(xi)*idf(xi))**2
 
     for yi in y:
-        if w not in stop_words:
+        if yi not in stop_words:
             den2+=(y.count(yi)*idf(yi))**2
 
     result=num/np.sqrt(den1*den2)
@@ -87,13 +96,21 @@ def LexRank(str):
                     rank+=(M[u][v]*page_rank[v]/degree[v])
             page_rank[u]=(1-d)/N+d*rank
 
+    print page_rank
+
     for i in heapq.nlargest(2,range(N),page_rank.take):
-        print sentences[i]
+        print i,sentences[i]
 
-if __name__=='__main__':
 
-    f=open('data/text_doc.json','r')
-    text=json.load(f)
-    f.close()
-    txt=text.values()[0]
-    LexRank(txt)
+f=open('data/text_doc.json','r')
+text=json.load(f)
+f.close()
+
+f=open('data/tfidf_index.json','r')
+indices=json.load(f)
+f.close()
+
+txt=text.values()[4]
+#print txt
+
+LexRank(normalization.normalize(txt))

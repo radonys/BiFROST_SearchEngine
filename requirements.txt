@@ -8,3 +8,5 @@ importlib
 argparse
 bs4
 normalization
+numpy
+heapq

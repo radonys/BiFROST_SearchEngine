@@ -21,7 +21,6 @@ def query_vector(query,path):
         positions = [index for index, value in enumerate(processed) if value == term]
         words[term][document] = positions
     
-
     indexing.dataload(words_tfidf,'data/tfidf_index.json')
     cosinevector.update(indexing.cosine_vector(words_tfidf,processed,path))
 
@@ -29,6 +28,4 @@ def query_vector(query,path):
 
     scorevector.update(indexing.score_calculator(cosinevector,queryvector))
 
-query = raw_input()
-path = "/Users/yashsrivastava/Desktop/raw"
-query_vector(query,path)
+    return scorevector

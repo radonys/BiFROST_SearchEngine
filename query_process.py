@@ -29,3 +29,24 @@ def query_vector(query,path):
     scorevector.update(indexing.score_calculator(cosinevector,queryvector))
 
     return scorevector
+
+def query_position(query):
+
+    words_query = collections.defaultdict(dict)
+    words_doc = collections.defaultdict(dict)
+
+    query_type = TE.query_type(query)
+
+    processed = TE.textprocess(query)
+
+    for word in processed:
+                    
+        term = word
+        document = query
+        positions = [index for index, value in enumerate(processed) if value == term]
+        words_query[term][document] = positions
+
+    indexing.dataload(words_doc,'data/positions.json')
+
+    
+    

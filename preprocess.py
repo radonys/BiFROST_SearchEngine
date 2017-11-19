@@ -26,6 +26,7 @@ def main(args):
     #Text documents are given.
     elif args.data_dir!=None:
         filecount = indexing.index(words,args.data_dir)
+        indexing.datasave(words,3)
         indexing.tfidf(words,words_tfidf,filecount)
         indexing.datasave(words_tfidf,1)
 

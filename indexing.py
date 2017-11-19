@@ -50,7 +50,7 @@ def datasave(words,i):
     elif i==2:
         file = open("data/text_doc.json",'w')
     elif i==3:
-        file = open("data/vector_doc.json","w")
+        file = open("data/positions.json","w")
 
     json.dump(words,file)
     file.close()

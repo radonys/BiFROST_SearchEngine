@@ -122,3 +122,4 @@ for i in range(len(text)):
 
 f=open('data/summaries.json','w')
 json.dump(all_summaries,f)
+f.close()

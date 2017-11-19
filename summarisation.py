@@ -96,10 +96,12 @@ def LexRank(str):
                     rank+=(M[u][v]*page_rank[v]/degree[v])
             page_rank[u]=(1-d)/N+d*rank
 
-    print page_rank
-
+    summary=''
+    
     for i in heapq.nlargest(2,range(N),page_rank.take):
-        print i,sentences[i]
+        summary+=sentences[i]
+
+    return summary
 
 
 f=open('data/text_doc.json','r')
@@ -110,7 +112,13 @@ f=open('data/tfidf_index.json','r')
 indices=json.load(f)
 f.close()
 
-txt=text.values()[4]
-#print txt
+all_summaries=dict()
 
-LexRank(normalization.normalize(txt))
+for i in range(len(text)):
+    txt=text.values()[i]
+    docname=text.keys()[i]
+    summary=LexRank(normalization.normalize(txt))
+    all_summaries[docname]=summary
+
+f=open('data/summaries.json','w')
+json.dump(all_summaries,f)

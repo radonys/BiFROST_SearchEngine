@@ -3,6 +3,7 @@ import importlib
 import argparse
 import sys
 import collections
+import json
 
 import indexing
 import text_extract as TE
@@ -15,16 +16,14 @@ def main(args):
     filecount = 0
 
     #If no data is given as input.
-    if args.data_dir==None and args.tfidf_json_file==None:
-        
+    if args.data_dir==None:
         sys.exit("No Data Available")
-
-    #TF-IDF data is given.
-    elif args.tfidf_json_file!=None:
-        indexing.dataload(words_tfidf,args.tfidf_json_file)
 
     #Text documents are given.
     elif args.data_dir!=None:
+        file = open("data/path.json",'w')
+        json.dump(args.data_dir,file)
+        file.close()
         filecount = indexing.index(words,args.data_dir)
         indexing.datasave(words,3)
         indexing.tfidf(words,words_tfidf,filecount)
@@ -43,7 +42,6 @@ def parse_arguments(argv):
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--data_dir', type=str, help='Path to the data directory', default=None)
-    parser.add_argument('--tfidf_json_file', type=str, help='Path to the TF-IDF JSON file', default=None)
 
     return parser.parse_args(argv)
 

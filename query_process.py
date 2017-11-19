@@ -1,6 +1,7 @@
 import sys
 import os
 import collections
+import json
 
 import indexing
 import text_extract as TE
@@ -37,8 +38,6 @@ def phrase_query(query,words):
         if term not in words:
             return doc_list
 
-    
-
 def query_vector(query):
 
     words = collections.defaultdict(dict)
@@ -56,7 +55,11 @@ def query_vector(query):
         words[term][document] = positions
     
     indexing.dataload(words_tfidf,'data/tfidf_index.json')
-    cosinevector.update(indexing.cosine_vector(words_tfidf,processed,'/Users/yashsrivastava/Desktop/raw'))
+
+    file = open('data/path.json','r')
+    path = json.load(file)
+    file.close()
+    cosinevector.update(indexing.cosine_vector(words_tfidf,processed,path))
 
     queryvector = indexing.query_tfidf(processed,words_tfidf)
 

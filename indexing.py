@@ -11,6 +11,7 @@ import text_extract as TE
 def index(words,filepath):
 
     total_files = 0
+    flag = 0
 
     for folder,subfolders,files in os.walk(filepath):
         
@@ -31,7 +32,14 @@ def index(words,filepath):
                     positions = [index for index, value in enumerate(processed) if value == term]
                     words[term][document] = positions
             
-            print "File : ", total_files, " done. File Path : ", document 
+            print "File : ", total_files, " done. File Path : ", document
+
+            if total_files==10000:
+                flag = 1
+                break
+        
+        if flag==1:
+            break
 
     return total_files
 

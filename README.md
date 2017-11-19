@@ -1,2 +1,3 @@
-# bifrost_SearchEngine
-A search engine designed on the principles of Information Retrieval.
+# BiFROST_SearchEngine
+
+A Search Engine designed on the principles of Information Retrieval. 

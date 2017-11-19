@@ -5,6 +5,38 @@ import collections
 import indexing
 import text_extract as TE
 
+def one_term_query(query,words):
+    
+    doc_list = []
+
+    if len(query)==1:
+        for term in query:
+            if term in words:
+                for doc in words[term]:
+                    doc_list.append(doc)
+    
+    return doc_list
+
+def free_text_query(query,words):
+    
+    doc_list = set()
+
+    if len(query)>0:
+        for term in query:
+            if term in words:
+                for doc in words[term]:
+                    doc_list.add(doc)
+
+    return list(doc_list)
+
+def phrase_query(query,words):
+    
+    doc_list = []
+
+    for term in query:
+        if term not in words:
+            return doc_list
+
 def query_vector(query,path):
 
     words = collections.defaultdict(dict)
@@ -48,5 +80,12 @@ def query_position(query):
 
     indexing.dataload(words_doc,'data/positions.json')
 
-    
+    if len(words_query)==1:
+        return one_term_query(words_query,words_doc)
+    elif query_type=='FTQ':
+        return free_text_query(words_query,words_doc)
+    elif query_type=='PQ':
+        return phrase_query(words_query,words_doc)
+
+
     

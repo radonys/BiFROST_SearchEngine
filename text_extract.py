@@ -11,12 +11,14 @@ def tokenize(f):
 
     processed=[]
     stop_words = set(stopwords.words('english'))
+    f = f.lower()
 
     for word in word_tokenize(f):
         if word.isalnum():
             if word not in stop_words:
-                processed.append(word.lower())
+                processed.append(word)
 
+    print processed
     return processed
 
 #Normalization

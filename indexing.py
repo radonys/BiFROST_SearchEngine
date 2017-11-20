@@ -25,6 +25,8 @@ def index(words,filepath):
                 
                 processed = TE.textprocess(text_data)
 
+                print processed
+
                 for word in processed:
                     
                     term = word

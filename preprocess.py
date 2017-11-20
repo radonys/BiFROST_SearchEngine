@@ -38,7 +38,7 @@ def main(args):
         
         indexing.datasave(text,2)
     
-    summarisation.summarize()
+    #summarisation.summarize()
     
 def parse_arguments(argv):
     

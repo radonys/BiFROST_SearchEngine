@@ -24,9 +24,7 @@ def index(words,filepath):
             if text_data != None:
                 
                 processed = TE.textprocess(text_data)
-
-                print processed
-
+                
                 for word in processed:
                     
                     term = word

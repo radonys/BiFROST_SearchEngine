@@ -18,7 +18,6 @@ def tokenize(f):
             if word not in stop_words:
                 processed.append(word)
 
-    print processed
     return processed
 
 #Normalization

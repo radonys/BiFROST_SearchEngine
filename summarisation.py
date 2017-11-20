@@ -5,11 +5,17 @@ from nltk.tokenize import sent_tokenize,word_tokenize
 from nltk import PorterStemmer
 from nltk.corpus import stopwords
 import normalization
+import nltk
+
+import text_extract as TE
+
+nltk.data.path.append("/Users/yashsrivastava/Documents/Files/IR/nltk_data")
+
 
 def summarize():
     
     stop_words=list(set(stopwords.words("english")))
-
+    
     f=open('data/text_doc.json','r')
     text=json.load(f)
     f.close()
@@ -17,6 +23,8 @@ def summarize():
     f=open('data/tfidf_index.json','r')
     indices=json.load(f)
     f.close()
+
+    all_summaries=dict()
 
     def row_normalize(A):
 
@@ -35,22 +43,8 @@ def summarize():
 
     def idf_modified_cosine(str1,str2):
 
-        str1 = str1.lower()
-        str2 = str2.lower()
-        x0=word_tokenize(str1)
-        y0=word_tokenize(str2)
-
-        x=y=[]
-
-        for xi in x0:
-            if xi.isalnum():
-                if xi not in stop_words:
-                    x.append(xi)
-
-        for yi in y0:
-            if yi.isalnum():
-                if yi not in stop_words:
-                    y.append(yi)
+        x = TE.tokenize(str1)
+        y = TE.tokenize(str2)
 
         num=den1=den2=0.0
 
@@ -115,11 +109,12 @@ def summarize():
 
         return summary
 
-    all_summaries=dict()
-
     for i in range(len(text)):
+        
         txt=text.values()[i]
         docname=text.keys()[i]
+        txt = txt.lower()
+
         summary=LexRank(normalization.normalize(txt))
         all_summaries[docname]=summary
 
@@ -128,3 +123,5 @@ def summarize():
     f.close()
 
     print ("Summarization Done")
+
+summarize()

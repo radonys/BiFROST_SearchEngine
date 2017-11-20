@@ -7,6 +7,7 @@ import json
 
 import indexing
 import text_extract as TE
+import summarisation
 
 def main(args):
 
@@ -36,6 +37,8 @@ def main(args):
                 TE.summarize_text(os.path.join(os.path.abspath(folder),filename),text)
         
         indexing.datasave(text,2)
+    
+    summarisation.summarize()
     
 def parse_arguments(argv):
     

@@ -7,7 +7,6 @@ import json
 
 import indexing
 import text_extract as TE
-import summarisation
 
 def main(args):
 
@@ -38,6 +37,7 @@ def main(args):
         
         indexing.datasave(text,2)
     
+    #import summarisation
     #summarisation.summarize()
     
 def parse_arguments(argv):

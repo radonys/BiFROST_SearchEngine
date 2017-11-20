@@ -38,6 +38,52 @@ def phrase_query(query,words):
         if term not in words:
             return doc_list
 
+    query_docs = dict()
+    
+    for term in query:
+        if term in words:
+            query_docs[term] = list(words[term].keys())
+
+    common_docs = set()
+
+    for term in query:
+        common_docs = set(query_docs[term])
+        break
+
+    for term in query_docs:
+        
+        common_docs.intersection(query_docs[term])
+
+        if indexing.is_empty(common_docs):
+            return list(common_docs)
+    
+    common_docs = list(common_docs)
+
+    for doc in common_docs:
+        
+        count = 0
+        flag = 0
+        position_set = set()
+
+        for term in query:
+            
+            if count==0:
+                position_set = set(words[term][doc])
+
+            else:
+                position_set.intersection([x-count for x in words[term][doc]])
+
+            if indexing.is_empty(position_set):
+                flag = 1
+                break
+
+            count = count + 1
+        
+        if flag==0:
+            doc_list.append(doc)
+    
+    return doc_list
+
 def query_vector(query):
 
     words = collections.defaultdict(dict)

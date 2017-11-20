@@ -6,16 +6,20 @@ import json
 import indexing
 import text_extract as TE
 
+f=open('data/tfidf_index.json','r')
+doc_tfidf = json.load(f)
+f.close()
+
 def one_term_query(query,words):
     
-    doc_list = []
+    doc_list = dict()
 
     if len(query)==1:
         for term in query:
             if term in words:
                 for doc in words[term]:
-                    doc_list.append(doc)
-    
+                    doc_list[doc] = doc_tfidf[term][doc][2]
+
     return doc_list
 
 def free_text_query(query,words):
@@ -32,7 +36,8 @@ def free_text_query(query,words):
 
 def phrase_query(query,words):
     
-    doc_list = []
+    doc_list = dict()
+    docs = []
 
     for term in query:
         if term not in words:
@@ -80,7 +85,15 @@ def phrase_query(query,words):
             count = count + 1
         
         if flag==0:
-            doc_list.append(doc)
+            docs.append(doc)
+    
+    for doc in docs:
+        
+        doc_list[doc] = 0
+
+        for term in query:
+            if term in words:
+                doc_list[doc] = doc_list[doc] + doc_tfidf[term][doc][2]
     
     return doc_list
 
@@ -133,7 +146,7 @@ def query_position(query):
 
     if len(words_query)==1:
         return one_term_query(words_query,words_doc)
-    '''elif query_type=='FTQ':
-        return free_text_query(words_query,words_doc)'''
     elif query_type=='PQ':
         return phrase_query(words_query,words_doc)
+    '''elif query_type=='FTQ':
+        return free_text_query(words_query,words_doc)'''

@@ -37,7 +37,10 @@ def summarize():
         word=stemmer.stem(word)
 
         #global indices
-        idf_value=indices[word].values()[0][1]
+        if word in indices:
+            idf_value=indices[word].values()[0][1]
+        else:
+            idf_value = 0.0000001
         return idf_value
 
 
@@ -122,3 +125,5 @@ def summarize():
     f.close()
 
     print ("Summarization Done")
+
+summarize()

@@ -31,7 +31,7 @@ def index(words,filepath):
                     document = os.path.join(os.path.abspath(folder),filename)
                     positions = [index for index, value in enumerate(processed) if value == term]
                     words[term][document] = positions
-            
+
             print "File : ", total_files, " done. File Path : ", document
 
             if total_files==10000:

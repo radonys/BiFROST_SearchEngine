@@ -123,5 +123,3 @@ def summarize():
     f.close()
 
     print ("Summarization Done")
-
-summarize()

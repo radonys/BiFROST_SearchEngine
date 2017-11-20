@@ -1,7 +1,7 @@
 import os
 from bs4 import BeautifulSoup
 import nltk
-from nltk import word_tokenize
+from nltk import word_tokenize,sent_tokenize
 from nltk import PorterStemmer
 from nltk.corpus import stopwords
 import normalization
@@ -23,21 +23,29 @@ def tokenize(f):
 #Normalization
 def normalize(f):
     
-     f = normalization.normalize(f)
-     processed = tokenize(f)
-     
-     return processed
+    f = normalization.normalize(f)
+    f = sent_tokenize(f)
+    processed = []
+
+    #print f
+
+    for u in range(0,len(f)):
+        tokens = tokenize(f[u])
+        processed.extend(tokens)
+
+    print processed
+    return processed
 
 #Stemming
 def stem_words(f):
-
-	stemmer=PorterStemmer()
-	processed=normalize(f)
-
-	for i in range(len(processed)):
-		processed[i]=stemmer.stem(processed[i])
-
-	return processed
+    
+    stemmer=PorterStemmer()
+    processed=normalize(f)
+    
+    for i in range(len(processed)):
+        processed[i]=stemmer.stem(processed[i])
+    
+    return processed
 
 #Preprocess
 def textprocess(data):

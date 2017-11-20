@@ -133,7 +133,7 @@ def query_position(query):
 
     if len(words_query)==1:
         return one_term_query(words_query,words_doc)
-    elif query_type=='FTQ':
-        return free_text_query(words_query,words_doc)
+    '''elif query_type=='FTQ':
+        return free_text_query(words_query,words_doc)'''
     elif query_type=='PQ':
         return phrase_query(words_query,words_doc)

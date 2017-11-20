@@ -70,12 +70,11 @@ def summarize_text(file,text):
 
 def query_type(query):
     
-    if '"' in query:
+    if len(query.split())==1:
+        return 'OWQ' #One Word Query
+    else:
         return 'PQ' #Phrase Query
 
-    elif len(query.split()) > 1:
-        return 'FTQ' #Free Text Query
-        
-    else:
-        return 'OWQ' #One Word Query
+    '''elif len(query.split()) > 1:
+        return 'FTQ' #Free Text Query'''
 

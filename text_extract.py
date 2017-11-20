@@ -27,13 +27,10 @@ def normalize(f):
     f = sent_tokenize(f)
     processed = []
 
-    #print f
-
     for u in range(0,len(f)):
         tokens = tokenize(f[u])
         processed.extend(tokens)
 
-    print processed
     return processed
 
 #Stemming

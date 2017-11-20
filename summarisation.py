@@ -113,7 +113,6 @@ def summarize():
         
         txt=text.values()[i]
         docname=text.keys()[i]
-        txt = txt.lower()
 
         summary=LexRank(normalization.normalize(txt))
         all_summaries[docname]=summary

@@ -22,18 +22,6 @@ def one_term_query(query,words):
 
     return doc_list
 
-def free_text_query(query,words):
-    
-    doc_list = set()
-
-    if len(query)>0:
-        for term in query:
-            if term in words:
-                for doc in words[term]:
-                    doc_list.add(doc)
-
-    return list(doc_list)
-
 def phrase_query(query,words):
     
     doc_list = dict()
@@ -148,5 +136,3 @@ def query_position(query):
         return one_term_query(words_query,words_doc)
     elif query_type=='PQ':
         return phrase_query(words_query,words_doc)
-    '''elif query_type=='FTQ':
-        return free_text_query(words_query,words_doc)'''

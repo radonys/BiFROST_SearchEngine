@@ -12,7 +12,7 @@ import text_extract as TE
 nltk.data.path.append("/Users/yashsrivastava/Documents/Files/IR/nltk_data")
 
 
-def summarize():
+def summarize(doc_list):
     
     stop_words=list(set(stopwords.words("english")))
     
@@ -112,10 +112,10 @@ def summarize():
 
         return summary
 
-    for i in range(len(text)):
+    for doc in doc_list:
         
-        txt=text.values()[i]
-        docname=text.keys()[i]
+        txt = text[doc]
+        docname = doc
 
         summary=LexRank(normalization.normalize(txt))
         all_summaries[docname]=summary
@@ -127,5 +127,3 @@ def summarize():
     f.close()
 
     print ("Summarization Done")
-
-summarize()

@@ -13,9 +13,9 @@ nltk.data.path.append("/Users/yashsrivastava/Documents/Files/IR/nltk_data")
 
 
 def summarize(doc_list):
-    
+
     stop_words=list(set(stopwords.words("english")))
-    
+
     f=open('data/text_doc.json','r')
     text=json.load(f)
     f.close()
@@ -89,7 +89,7 @@ def summarize(doc_list):
         M=create_centrality_matrix(sentences)
         d=0.85
 
-        page_rank=np.zeros(N)
+        page_rank=np.ones(N)/N
         degree=np.zeros(N)
 
         for u in range(N):
@@ -106,14 +106,14 @@ def summarize(doc_list):
                 page_rank[u]=(1-d)/N+d*rank
 
         summary=''
-        
+
         for i in heapq.nlargest(2,range(N),page_rank.take):
             summary+=sentences[i]
 
         return summary
 
     for doc in doc_list:
-        
+
         txt = text[doc]
         docname = doc
 

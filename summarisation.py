@@ -122,8 +122,6 @@ def summarize(doc_list):
 
         print "File ", i+1, " : ", docname, " done."
 
-    f=open('data/summaries.json','w')
-    json.dump(all_summaries,f)
-    f.close()
+    return all_summaries
 
     print ("Summarization Done")

@@ -120,7 +120,7 @@ def summarize():
         summary=LexRank(normalization.normalize(txt))
         all_summaries[docname]=summary
 
-        print "File : ", docname, " done."
+        print "File ", i+1, " : ", docname, " done."
 
     f=open('data/summaries.json','w')
     json.dump(all_summaries,f)
